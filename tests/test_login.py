@@ -4,8 +4,28 @@ from selenium.webdriver.common.by import By
 import pytest
 
 
+
+class TestLogin:
+    @pytest.fixture(scope="function", autouse=True)
+    def browser_config(self):
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.implicitly_wait(20)
+        self.driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+        yield
+        self.driver.quit()
+
+    def test_valid_login(self):
+        self.driver.find_element(By.NAME,"username").send_keys("Admin")
+        self.driver.find_element(By.NAME,"password").send_keys("admin123")
+        self.driver.find_element(By.XPATH,"//button[@type='submit']").click()
+        header = self.driver.find_element(By.XPATH,"//h6").text
+        assert_that("Dashboard").is_equal_to(header)
+
+    # def test_invalid_login(self):
+
 class TestLoginUI:
-    @pytest.fixture(scope="function",autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def setup(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -17,9 +37,8 @@ class TestLoginUI:
     def test_title(self):
         actual_title = self.driver.title
         assert_that("OrangeHRM").is_equal_to(actual_title)
-        #assert actual_title == "OrangeHRM"
+        # assert actual_title == "OrangeHRM"
 
     def test_header(self):
-        text = self.driver.find_element(By.XPATH,"//h5[@class='oxd-text oxd-text--h5 orangehrm-login-title']").text
+        text = self.driver.find_element(By.XPATH, "//h5[@class='oxd-text oxd-text--h5 orangehrm-login-title']").text
         assert_that("Login").is_equal_to(text)
-
