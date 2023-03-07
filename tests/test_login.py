@@ -1,18 +1,7 @@
-from selenium import webdriver
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
-import pytest
 
-
-class WebDriverWrapper:
-    @pytest.fixture(scope="function", autouse=True)
-    def browser_config(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.implicitly_wait(20)
-        self.driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
-        yield
-        self.driver.quit()
+from base.webdriver_listener import WebDriverWrapper
 
 
 class TestLogin(WebDriverWrapper):
@@ -24,6 +13,13 @@ class TestLogin(WebDriverWrapper):
         header = self.driver.find_element(By.XPATH, "//h6").text
         assert_that("Dashboard").is_equal_to(header)
 
+    def test_invalid_login(self):
+        present
+        self.driver.find_element(By.NAME, "password").send_keys("Admin")
+        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        login_error = self.driver.find_element(By.XPATH, "//p[contains(normalize-space(),'Invalid')]").text
+        assert_that("Invalid credentials").is_equal_to(login_error)
+
 
 class TestLoginUI(WebDriverWrapper):
     def test_title(self):
@@ -33,3 +29,9 @@ class TestLoginUI(WebDriverWrapper):
     def test_header(self):
         text = self.driver.find_element(By.XPATH, "//h5[@class='oxd-text oxd-text--h5 orangehrm-login-title']").text
         assert_that("Login").is_equal_to(text)
+
+    def test_login_placeholder(self):
+        actual_username_placeholder = self.driver.find_element(By.NAME, "username").get_attribute("placeholder")
+        actual_password_placeholder = self.driver.find_element(By.NAME, "password").get_attribute("placeholder")
+        assert_that("Username").is_equal_to(actual_username_placeholder)
+        assert_that("Password").is_equal_to(actual_password_placeholder)
