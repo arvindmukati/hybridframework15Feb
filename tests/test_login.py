@@ -14,7 +14,7 @@ class TestLogin(WebDriverWrapper):
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
         header = self.driver.find_element(By.XPATH, "//h6").text
         assert_that("Dashboard").is_equal_to(header)
-        
+
     @pytest.mark.parametrize('username,password,expected_error', data_source.test_invalid_login_data)
     def test_invalid_login(self, username, password, expected_error):
         self.driver.find_element(By.NAME, "username").send_keys(username)
