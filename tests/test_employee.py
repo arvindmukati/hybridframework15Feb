@@ -22,7 +22,7 @@ class TestAddEmployee(WebDriverWrapper):
         time.sleep(7)
         header = self.driver.find_element(By.XPATH,"//h6[contains(@class,'oxd-text oxd-text--h6 --strong')]").text
         print(header)
-        fname = self.driver.find_element(By.NAME, "firstName").get_attribute("placeholder")
+        fname = self.driver.find_element(By.NAME, "firstName").get_attribute("value")
         assert_that(expected_name1).is_equal_to(header)
         assert_that(expected_first_name).is_equal_to(fname)
         time.sleep(3)
