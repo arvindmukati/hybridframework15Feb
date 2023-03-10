@@ -13,3 +13,6 @@ for i in df.index:
     print(df.loc[i].tolist())
 
 print(df.values.tolist())
+
+df1 = pandas.read_json(path_or_buf="../test_data/Data.json",typ=dict)
+print(df1)

@@ -10,16 +10,16 @@ from utilities import data_source
 
 class TestAddEmployee(WebDriverWrapper):
 
-    def test_invalid_profile_upload(self):
-        self.driver.find_element(By.NAME, "username").send_keys("Admin")
-        self.driver.find_element(By.NAME, "password").send_keys("admin123")
+    @pytest.mark.parametrize('username,password,uploadfile,expected_error',data_source.)
+    def test_invalid_profile_upload(self,username,password,uploadfile,expected_error):
+        self.driver.find_element(By.NAME, "username").send_keys(username)
+        self.driver.find_element(By.NAME, "password").send_keys(password)
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
         self.driver.find_element(By.LINK_TEXT, "PIM").click()
         self.driver.find_element(By.LINK_TEXT, "Add Employee").click()
-        self.driver.find_element(By.XPATH,"//input[@type='file']").send_keys(r"C:\Users\146648\Downloads\Arvind Ticket.pdf")
-
+        self.driver.find_element(By.XPATH,"//input[@type='file']").send_keys(uploadfile)
         actual_error = self.driver.find_element(By.XPATH,"//span[contains(normalize-space(),'not allowed')]").text
-        assert_that(actual_error).contains("File type not allowed")
+        assert_that(actual_error).contains(expected_error)
 
     @pytest.mark.parametrize('username, password, firstname, middlename, lastname, expected_name1, expected_first_name', data_source.test_add_employee_data)
     def test_valid_login(self,username, password, firstname, middlename, lastname, expected_name1, expected_first_name):
