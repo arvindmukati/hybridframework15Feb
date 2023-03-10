@@ -2,6 +2,8 @@ import time
 
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 from base.webdriver_listener import WebDriverWrapper
 import pytest
 from utilities import data_source
@@ -19,8 +21,8 @@ class TestAddEmployee(WebDriverWrapper):
         self.driver.find_element(By.NAME, "middleName").send_keys(middlename)
         self.driver.find_element(By.NAME, "lastName").send_keys(lastname)
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
-        time.sleep(7)
-        header = self.driver.find_element(By.XPATH,"//h6[contains(@class,'oxd-text oxd-text--h6 --strong')]").text
+
+        header = self.driver.find_element(By.XPATH, f"//h6[contains(normalize-space(),'{firstname}')]").text
         print(header)
         fname = self.driver.find_element(By.NAME, "firstName").get_attribute("value")
         assert_that(expected_name1).is_equal_to(header)
