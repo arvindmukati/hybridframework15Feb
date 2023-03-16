@@ -1,0 +1,3 @@
+username;password;firstname;middlename;lastname;expected_name1;expected_first_name
+Admin;admin123;John;J;Wick;John Wick;John
+Admin;admin123;Peter;J;Wick;Peter Wick;Peter

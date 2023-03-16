@@ -1,0 +1,4 @@
+username;password;expected_error
+saul;saul123;Invalid credentials
+kim;kim123;Invalid credentials
+john;jhon123;Invalid credentials
