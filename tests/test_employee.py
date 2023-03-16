@@ -10,7 +10,7 @@ from utilities import data_source
 
 class TestAddEmployee(WebDriverWrapper):
 
-    @pytest.mark.parametrize('username,password,uploadfile,expected_error',data_source.)
+    @pytest.mark.parametrize('username,password,uploadfile,expected_error',data_source.test_invalid_profile_upload_data)
     def test_invalid_profile_upload(self,username,password,uploadfile,expected_error):
         self.driver.find_element(By.NAME, "username").send_keys(username)
         self.driver.find_element(By.NAME, "password").send_keys(password)
