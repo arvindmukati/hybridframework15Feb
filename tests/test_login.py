@@ -2,15 +2,18 @@ import pytest
 from assertpy import assert_that
 from selenium.webdriver.common.by import By
 from utilities import data_source
-
+from pages.login_page import LoginPage
 from base.webdriver_listener import WebDriverWrapper
 
 
 class TestLogin(WebDriverWrapper):
 
     def test_valid_login(self):
-        self.driver.find_element(By.NAME, "username").send_keys("Admin")
-        self.driver.find_element(By.NAME, "password").send_keys("admin123")
+        # self.driver.find_element(By.NAME, "username").send_keys("Admin")
+        # self.driver.find_element(By.NAME, "password").send_keys("admin123")
+        login = LoginPage(self.driver)
+        login.enter_username("Admin")
+        login.enter_password("admin123")
         self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
         header = self.driver.find_element(By.XPATH, "//h6").text
         assert_that("Dashboard").is_equal_to(header)
